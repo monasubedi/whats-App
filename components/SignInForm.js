@@ -1,9 +1,13 @@
-import React, { useCallback, useReducer } from 'react'
+import React, { useCallback, useEffect, useReducer, useState } from 'react'
 import Input from './Input'
 import Button from './Button'
 import { Feather } from '@expo/vector-icons'
 import { validateInputs } from '../utils/actions/formActions'
 import { reducer } from '../utils/reducers/formReducer'
+import { signIn } from '../utils/actions/authActions'
+import { useDispatch } from 'react-redux'
+import { ActivityIndicator, Alert } from 'react-native'
+import colors from '../constants/colors'
 
 
 const initialState = {
@@ -20,11 +24,32 @@ const initialState = {
 
 const SignInForm = () => {
     const [formState, dispatchFormState] = useReducer(reducer, initialState);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error,setError] = useState('');
+    const dispatch = useDispatch();
 
     const onChangedText = useCallback((id, value) => {
         let result = validateInputs(id, value);
-        dispatchFormState({ id, validationResult: result,value });
+        dispatchFormState({ id, validationResult: result, value });
     }, [dispatchFormState])
+
+    const signInUser = useCallback(async() => {
+        const { email, password } = formState.inputValues;
+        setIsLoading(true);
+        try {
+            await dispatch(signIn(email, password));
+            setError('');
+        } catch (error) {
+            setError(error.message);
+            setIsLoading(false);
+        }
+    },[dispatch,formState])
+
+    useEffect(() => {
+        if (error) {
+            Alert.alert("An error occured", error);
+        }
+    }, [error])
 
     return (
         <>
@@ -50,7 +75,10 @@ const SignInForm = () => {
                 secureTextEntry={true}
                 handleChangeText={onChangedText}
             />
-            <Button disabled={!formState.formIsValid} title="Sign in" />
+            {
+                isLoading ? <ActivityIndicator style={{paddingTop:6}} size={'small'} color={colors.primary} /> : <Button disabled={!formState.formIsValid} onPress={signInUser} title="Sign in" />
+            }
+
         </>
 
     )

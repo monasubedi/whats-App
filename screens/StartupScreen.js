@@ -14,7 +14,7 @@ const StartupScreen = () => {
     useEffect(() => {
         const tryLogin = async () => {
             const storedAuthInfo = await AsyncStorage.getItem("userData");
-            console.log(storedAuthInfo);
+
             if (!storedAuthInfo) {
                 dispatch(setDidTryAutoLogin());
                 return;

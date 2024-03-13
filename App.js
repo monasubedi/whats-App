@@ -8,10 +8,12 @@ import * as Font from 'expo-font';
 import AppNavigator from "./navigators/AppNavigator";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 LogBox.ignoreAllLogs('You are initializing Firebase Auth for React Native')
 
 SplashScreen.preventAutoHideAsync();
+// AsyncStorage.clear();
 
 export default function App() {
   const [isAppLoaded, setIsAppLoaded] = useState(false);

@@ -16,6 +16,26 @@ export const validateString = (id, value) => {
     return result && result[id];
 }
 
+export const validateLength = (id, value, allowEmpty, minLength, maxLength) => {
+    const constraints = {
+        presence: { allowEmpty },
+    }
+
+    if (!allowEmpty || value !== "") {
+        constraints.length = {
+        };
+        if (maxLength != null) {
+            constraints.length.maximum = maxLength;
+        }
+        if (minLength != null) {
+            constraints.length.minimum = minLength;
+        }
+
+    }
+    const result = validate({ [id]: value }, { [id]: constraints });
+    return result && result[id];
+}
+
 export const validateEmail = (id, value) => {
     const constraints = {
         presence: { allowEmpty: false },

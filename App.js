@@ -13,7 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 LogBox.ignoreAllLogs('You are initializing Firebase Auth for React Native')
 
 SplashScreen.preventAutoHideAsync();
-// AsyncStorage.clear();
+//AsyncStorage.clear();
 
 export default function App() {
   const [isAppLoaded, setIsAppLoaded] = useState(false);

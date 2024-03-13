@@ -8,7 +8,7 @@ import StartupScreen from '../screens/StartupScreen';
 const AppNavigator = () => {
     const isAuth = useSelector(state => state.auth.token !== null && state.auth.token !== "");
     const didTryAutoLogin = useSelector(state => state.auth.didTryAutoLogin);
-    console.log(didTryAutoLogin);
+ 
     return (
         <NavigationContainer>
             {isAuth && <MainNavigator />}

@@ -25,7 +25,7 @@ const initialState = {
 const SignInForm = () => {
     const [formState, dispatchFormState] = useReducer(reducer, initialState);
     const [isLoading, setIsLoading] = useState(false);
-    const [error,setError] = useState('');
+    const [error, setError] = useState('');
     const dispatch = useDispatch();
 
     const onChangedText = useCallback((id, value) => {
@@ -33,17 +33,18 @@ const SignInForm = () => {
         dispatchFormState({ id, validationResult: result, value });
     }, [dispatchFormState])
 
-    const signInUser = useCallback(async() => {
+    const signInUser = useCallback(async () => {
         const { email, password } = formState.inputValues;
         setIsLoading(true);
         try {
-            await dispatch(signIn(email, password));
             setError('');
+            await dispatch(signIn(email, password));
+
         } catch (error) {
             setError(error.message);
             setIsLoading(false);
         }
-    },[dispatch,formState])
+    }, [dispatch, formState])
 
     useEffect(() => {
         if (error) {
@@ -76,7 +77,7 @@ const SignInForm = () => {
                 handleChangeText={onChangedText}
             />
             {
-                isLoading ? <ActivityIndicator style={{paddingTop:6}} size={'small'} color={colors.primary} /> : <Button disabled={!formState.formIsValid} onPress={signInUser} title="Sign in" />
+                isLoading ? <ActivityIndicator style={{ paddingTop: 6 }} size={'small'} color={colors.primary} /> : <Button disabled={!formState.formIsValid} onPress={signInUser} title="Sign in" />
             }
 
         </>

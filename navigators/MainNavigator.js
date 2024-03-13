@@ -8,7 +8,7 @@ import ChatScreen from '../screens/ChatScreen';
 const MainNavigator = () => {
     const Stack = createNativeStackNavigator();
     return (
-        <Stack.Navigator>
+        <Stack.Navigator screenOptions={{headerShown:false}}>
             <Stack.Screen name='Home' component={TabNavigator} options={{ headerTitle: '' }} />
             <Stack.Screen name='ChatSettings' component={ChatSettingsScreen} />
             <Stack.Screen name='Chat' component={ChatScreen} options={{headerBackTitle:'Back', headerTitle:''}} />

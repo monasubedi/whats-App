@@ -49,7 +49,7 @@ export const signIn = (email, password) => {
             const expiryDate = new Date(expirationTime);
             const timeEnd = expiryDate - new Date();
             const userData = await getUserData(uid);
-          
+
             dispatch(authenticate({ token: accessToken, userData }));
             saveToStorage(accessToken, uid, expiryDate);
 
@@ -72,7 +72,10 @@ export const signIn = (email, password) => {
 }
 
 export const updateSignedInData = async (userId, userData) => {
-    userData.firstLast = `${userData.firstName} ${userData.lastName}`;
+    if (userData.firstName || userData.lastName) {
+        userData.firstLast = `${userData.firstName} ${userData.lastName}`.toLowerCase();
+    }
+
     try {
         const dbRef = ref(getDatabase());
         const childRef = child(dbRef, `users/${userId}`);

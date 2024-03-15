@@ -4,6 +4,7 @@ import PageContainer from '../components/PageContainer'
 import SignUpForm from '../components/SignUpForm'
 import SignInForm from '../components/SignInForm'
 import colors from '../constants/colors'
+import SigninWithGoogle from '../components/SigninWithGoogle'
 
 const AuthScreen = () => {
     const [isSignUp, setIsSignUp] = useState(false);
@@ -22,6 +23,7 @@ const AuthScreen = () => {
                     {
                         isSignUp ? <SignUpForm /> : <SignInForm />
                     }
+                  
                     <TouchableOpacity onPress={switchText} style={styles.switchContainer}>
                         <Text style={styles.link}>Switch to {isSignUp ? "Sign In" : "Sign Up"}</Text>
                     </TouchableOpacity>
@@ -45,7 +47,8 @@ const styles = StyleSheet.create({
     },
     image: {
         width: "50%"
-    }
+    },
+  
 })
 
 export default AuthScreen

@@ -3,12 +3,12 @@ import React, { useEffect, useLayoutEffect } from 'react'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import CustomHeaderButton from '../components/CustomHeaderButton'
 
-const ChatListScreen = ({ navigation }) => {
+const NewChatScreen = ({ navigation }) => {
     useLayoutEffect(() => {
         navigation.setOptions({
-            headerRight: () => {
+            headerLeft: () => {
                 return <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-                    <Item title='New chat' iconName='create-outline' onPress={() => navigation.navigate("New Chat")} />
+                    <Item title='Close' onPress={() => navigation.goBack()} />
                 </HeaderButtons>
             }
         })
@@ -16,8 +16,7 @@ const ChatListScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <Text>ChatListScreen</Text>
-            <Button onPress={() => navigation.navigate("Chat")} title='Go to chat screen' />
+            <Text>New Chat Screen</Text>
         </View>
     )
 }
@@ -30,5 +29,5 @@ const styles = StyleSheet.create({
     }
 })
 
-export default ChatListScreen
+export default NewChatScreen
 

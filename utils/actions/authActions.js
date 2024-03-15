@@ -4,6 +4,7 @@ import { getFirebaseApp } from "../firebaseHelper";
 import { authenticate, logout } from "../../store/authSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getUserData } from "./userActions";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
 
 let timer;
@@ -130,5 +131,15 @@ export const userLogout = () => {
         clearTimeout(timer);
         dispatch(logout());
 
+    }
+}
+
+export const googleSignIn = async() => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      console.log(userInfo);  
+    } catch (error) {
+        console.log(error);
     }
 }

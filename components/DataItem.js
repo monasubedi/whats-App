@@ -8,7 +8,7 @@ const DataItem = (props) => {
         <TouchableWithoutFeedback>
             <View style={styles.container}>
                 <View>
-                    <ProfileImage uri={props.image} size={40} />
+                    <ProfileImage uri={props.image} size={40} showEditButton={false} />
                 </View>
                 <View style={styles.textContainer}>
                     <Text style={styles.title} numberOfLines={1}>{props.title}</Text>

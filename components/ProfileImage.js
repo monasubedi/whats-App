@@ -13,6 +13,9 @@ const ProfileImage = (props) => {
     const [image, setImage] = useState(sourceUri);
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
+    const showEditButton = props.showEditButton && props.showEditButton === true;
+
+    const Container = showEditButton ? TouchableOpacity : View;
 
     const pickImage = async () => {
         try {
@@ -35,17 +38,21 @@ const ProfileImage = (props) => {
     }
 
     return (
-        <TouchableOpacity onPress={pickImage}>
+        <Container onPress={pickImage}>
             {
                 isLoading ? <View height={props.size} width={props.size} style={styles.center}><ActivityIndicator size={'small'} color={colors.primary} /></View> :
                     <Image alt='profile-img' style={{ ...styles.image, ...{ width: props.size, height: props.size } }} source={image} />
 
             }
+            {
+                showEditButton && !isLoading &&
+                <View style={styles.editIcon}>
+                    <FontAwesome name='pencil' />
+                </View>
+            }
 
-            <View style={styles.editIcon}>
-                <FontAwesome name='pencil' />
-            </View>
-        </TouchableOpacity>
+
+        </Container>
     )
 }
 
@@ -67,7 +74,7 @@ const styles = StyleSheet.create({
     center: {
         justifyContent: 'center',
         alignItems: 'center',
-       
+
     }
 })
 

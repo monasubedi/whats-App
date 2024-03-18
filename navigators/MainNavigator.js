@@ -9,17 +9,15 @@ import NewChatScreen from '../screens/NewChatScreen';
 const MainNavigator = () => {
     const Stack = createNativeStackNavigator();
     return (
-
         <Stack.Navigator >
-            <Stack.Group screenOptions={{ headerShown: false }}>
-                <Stack.Screen name='Home' component={TabNavigator} options={{ headerTitle: '' }} />
-                <Stack.Screen name='ChatSettings' component={ChatSettingsScreen} />
+            <Stack.Group screenOptions={{}} >
+                <Stack.Screen name='Home' component={TabNavigator} options={{ headerTitle: '', headerShown: false }} />
+                <Stack.Screen name='ChatSettings' component={ChatSettingsScreen} options={{ headerShown: false }} />
                 <Stack.Screen name='Chat' component={ChatScreen} options={{ headerBackTitle: 'Back', headerTitle: '' }} />
             </Stack.Group>
             <Stack.Group screenOptions={{ presentation: 'containedModal' }}>
                 <Stack.Screen name='New Chat' component={NewChatScreen} />
             </Stack.Group>
-
         </Stack.Navigator>
     )
 }

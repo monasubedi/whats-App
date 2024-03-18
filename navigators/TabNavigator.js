@@ -7,8 +7,9 @@ import SettingsScreen from '../screens/SettingsScreen';
 const TabNavigator = () => {
     const Tab = createBottomTabNavigator();
     return (
-        <Tab.Navigator screenOptions={{ headerTitle: '', headerShadowVisible:false }}>
+        <Tab.Navigator screenOptions={{ headerTitle:'', headerShadowVisible:false }}>
             <Tab.Screen name='ChatList' component={ChatListScreen} options={{
+                headerTitle:'',
                 tabBarLabel: "Chats",
                 tabBarIcon: ({ color }) => {
                     return <Ionicons name="chatbubble-outline" size={24} color={color} />
@@ -16,6 +17,7 @@ const TabNavigator = () => {
                 tabBarLabelStyle: { fontSize: 14 }
             }} />
             <Tab.Screen name='Settings' component={SettingsScreen} options={{
+                headerShown:false,
                 headerShadowVisible:false,
                 headerTitle: '',
                 tabBarIcon: ({ color }) => {

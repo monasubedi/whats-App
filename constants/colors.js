@@ -7,5 +7,6 @@ export default {
     grey:"#7f8c8d",
     textColor:"#1c1e21",
     red:'#e74c3c',
-    extraLightGrey:"#ededed"
+    extraLightGrey:"#ededed",
+    beige:'#fef5c3'
 }

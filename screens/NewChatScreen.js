@@ -8,13 +8,17 @@ import colors from '../constants/colors'
 import commonStyles from '../constants/commonStyles';
 import { searchUsers } from '../utils/actions/userActions'
 import DataItem from '../components/DataItem'
+import { useDispatch, useSelector } from 'react-redux'
+import { setStoredUsers } from '../store/userSlice'
 
-const NewChatScreen = ({ navigation }) => {
+const NewChatScreen = ({ navigation,route }) => {
 
     const [isLoading, setIsLoading] = useState(false);
     const [users, setUsers] = useState();
     const [noResultsFound, setNoResultsFound] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
+    const userData = useSelector(state => state.auth.userData);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         let delayTime = setTimeout(async () => {
@@ -24,13 +28,15 @@ const NewChatScreen = ({ navigation }) => {
                 return;
             }
             setIsLoading(true);
-            let users = await searchUsers(searchTerm);
-            setUsers(users);
-            if (Object.keys(users).length === 0) {
+            let userList = await searchUsers(searchTerm);
+            delete(userList[userData.userId]);
+            setUsers(userList);
+            if (Object.keys(userList).length === 0) {
                 setNoResultsFound(true);
             }
             else {
                 setNoResultsFound(false);
+                dispatch(setStoredUsers(userList));
             }
             setIsLoading(false);
         }, 500);
@@ -49,6 +55,10 @@ const NewChatScreen = ({ navigation }) => {
         })
     }, [])
 
+    const onPressed = (userId) => {
+        navigation.navigate("ChatList",{selectedUserId:userId});
+    }
+
     return (
         <PageContainer>
             <View style={styles.searchContainer}>
@@ -65,7 +75,7 @@ const NewChatScreen = ({ navigation }) => {
                 <FlatList data={Object.keys(users)} renderItem={({ item }) => {
                     let userData = users[item];
                     return (
-                        <DataItem title={userData.firstLast} subTitle={userData.about} image={userData.profilePicture} />
+                        <DataItem title={userData.firstLast} onPress={() => onPressed(userData.userId)} subTitle={userData.about} image={userData.profilePicture} />
                     )
                 }} />
             }

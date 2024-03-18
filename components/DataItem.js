@@ -5,7 +5,7 @@ import colors from '../constants/colors'
 
 const DataItem = (props) => {
     return (
-        <TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={props.onPress}>
             <View style={styles.container}>
                 <View>
                     <ProfileImage uri={props.image} size={40} showEditButton={false} />

@@ -8,14 +8,15 @@ import { HeaderButtons } from 'react-navigation-header-buttons';
 import CustomHeaderButton from '../components/CustomHeaderButton';
 import Bubble from '../components/Bubble';
 import PageContainer from '../components/PageContainer';
-import { createChat } from '../utils/actions/chatActions';
+import { createChat, sendTextMessage } from '../utils/actions/chatActions';
 
 
 const ChatScreen = ({ navigation, route }) => {
   const [textMessage, setTextMessage] = useState('');
   const [chatUsers, setChatUsers] = useState([]);
   const [chatId, setChatId] = useState(route?.params?.chatId);
-  const chatData = route?.params?.newChatData;
+  const storedChats = useSelector(state => state.chats.chatsData);
+  const chatData = (chatId && storedChats[chatId]) || route?.params?.newChatData;
   const storedUsers = useSelector(state => state.users.storedUsers);
   const userData = useSelector(state => state.auth.userData);
 
@@ -30,15 +31,16 @@ const ChatScreen = ({ navigation, route }) => {
       headerTitle: getChatTitle()
     });
 
-    setChatUsers(chatData.users);
+    setChatUsers(chatData?.users);
   }, [chatUsers])
 
-  const sendMessage = useCallback(async() => {
+  const sendMessage = useCallback(async () => {
     let id = chatId;
-    if(!id){
-      id = await createChat(userData.userId,chatData);
+    if (!id) {
+      id = await createChat(userData.userId, chatData);
       setChatId(id);
     }
+    await sendTextMessage(id, userData.userId, textMessage);
     setTextMessage('');
   }, [textMessage])
 
@@ -46,7 +48,7 @@ const ChatScreen = ({ navigation, route }) => {
     <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : undefined} keyboardVerticalOffset={100}>
       <View style={styles.container}>
         <ImageBackground style={styles.container} source={bgImg}>
-          <PageContainer style={{backgroundColor:'transparent'}}>
+          <PageContainer style={{ backgroundColor: 'transparent' }}>
             {!chatId && <Bubble type="system" text="This is a new chat. Say hi!" />}
           </PageContainer>
         </ImageBackground>
@@ -66,8 +68,6 @@ const ChatScreen = ({ navigation, route }) => {
         </View>
       </View>
     </KeyboardAvoidingView>
-
-
   )
 }
 
